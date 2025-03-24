@@ -12,7 +12,7 @@ print(person_dict)
 person_json = json.dumps(person_dict)
 print(person_json)
 print(type(person_json))
-perint(type(person_dict))
+print(type(person_dict))
 
 #3-formatando json
 print(json.dumps(person_dict, indent=4, sort_keys=True))
