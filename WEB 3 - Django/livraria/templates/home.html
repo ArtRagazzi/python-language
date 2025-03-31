@@ -1,6 +1,18 @@
 {% extends 'base.html'%}
 {% block content %}
 
-    <h2 class="text-center">Lista de Livros</h2>
+    <h2 class="text-center">Login</h2>
     <hr/>
+    <form action="{% url 'home' %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="usuario">Usuário</label>
+            <input type="text" name="usuario" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="senha">Senha</label>
+            <input type="password" name="senha" class="form-control" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
 {% endblock %}
