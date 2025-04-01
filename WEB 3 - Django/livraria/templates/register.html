@@ -3,4 +3,12 @@
 
     <h2 class="text-center">Cadastro de Usuário</h2>
     <hr>
+    <form method="POST" action="{% url 'register' %}">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+    </form>
 {%endblock%}
