@@ -26,5 +26,9 @@ def home(request):
         return render(request, 'home.html')
 
 def logout_user(request):
-    pass
+    logout(request)
+    messages.success(request, "Logout com sucesso!")
+    return redirect('home')
 
+def register_user(request):
+    return render(request, 'register.html')
