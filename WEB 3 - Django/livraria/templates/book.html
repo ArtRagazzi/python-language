@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-6 offset-md-3 mt-5">
+        <div class="card">
+            <div class="card-header text-center">
+                {{book.title}}
+            </div>
+            <div class="card-body text-center">
+                <h5 class="card-title">{{book.genre}}, Ano: {{book.year}}</h5>
+                <p>{{book.description}}
+                <hr/>
+                <span>R$ {{book.value}}</span>
+            </div>
+        </div>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Voltar</a>
+            <a href="{% url 'delete_book' book.id %}" class="btn btn-danger">Excluir</a>
+    </div>
+
+
+    
+{% endblock %}

@@ -3,9 +3,13 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .form import SignUpForm
+from .models import Book
 
 # Create your views here.
 def home(request):
+    
+    books = Book.objects.all()
+    
     if(request.method == "POST"):
         username = request.POST['usuario']
         password = request.POST['senha']
@@ -24,7 +28,7 @@ def home(request):
             return redirect('home')
         
     else:
-        return render(request, 'home.html')
+        return render(request, 'home.html', {'books':books})
 
 def logout_user(request):
     logout(request)
@@ -38,7 +42,7 @@ def register_user(request):
             form.save()
             #Auth e Login
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            password = form.cleaned_data['password1']
             user = authenticate(
                 username = username,
                 password = password
@@ -54,3 +58,21 @@ def register_user(request):
         form = SignUpForm()
         return render(request, 'register.html', {'form':form})
     return render(request, 'register.html', {'form':form})
+
+def book_detail(request, id):
+    if request.user.is_authenticated:
+        book = Book.objects.get(id=id)
+        return render(request, 'book.html', {'book':book})
+    else:
+        messages.error(request, 'Você preicsa estar logado!')
+        return redirect('home')
+    
+def book_delete(request,id):
+    if request.user.is_authenticated:
+        book = Book.objects.get(id=id)
+        book.delete()
+        messages.success(request, 'Livro excluido com sucesso!')
+        return redirect('home')
+    else:
+        messages.error(request, 'Você precisa estar logado!')
+        return redirect('home')
