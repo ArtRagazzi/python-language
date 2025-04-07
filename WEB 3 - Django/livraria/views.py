@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .form import SignUpForm
+from .form import SignUpForm, AddBookForm
 from .models import Book
 
 # Create your views here.
@@ -75,4 +75,31 @@ def book_delete(request,id):
         return redirect('home')
     else:
         messages.error(request, 'Você precisa estar logado!')
+        return redirect('home')
+    
+    
+def book_add(request):
+    form = AddBookForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Livro adicionado com sucesso!")
+                return redirect('home')
+        return render(request, 'add_book.html', {'form':form})
+    else:
+        messages.error(request, "Você deve estar autenticado para adicionar livros!")
+        return redirect('home')
+    
+
+def update_book(request, id):
+    if request.user.is_authenticated:
+        book = Book.objects.get(id=id)
+        form = AddBookForm(request.POST or None, instance=book)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Livro atualizado com sucesso!')
+        return render(request, 'update_book.html', {'form':form})
+    else:
+        messages.error(request, "Você deve estar autenticado para adicionar livros!")
         return redirect('home')
